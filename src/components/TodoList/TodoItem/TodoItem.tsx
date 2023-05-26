@@ -5,4 +5,4 @@ const TodoItem: React.FC<{ todoItem: ITodoItem }> = ({ todoItem }) => {
   return <ul>{todoItem.name}</ul>;
 };
 
-export default TodoItem
+export default React.memo(TodoItem);
