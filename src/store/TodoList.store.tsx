@@ -7,9 +7,25 @@ import {
 } from "@reduxjs/toolkit";
 import ITodoItem from "../types/TodoItem";
 import TodoListService from "../services/TodoListService";
+import { useContext } from "react";
+
+var defaultItems: ITodoItem[] = [];
+// const [defaultItems, setDefaultItems] = useState([]);
+const getDefaultTodoList = () => {
+  TodoListService.getAll()
+    .then((response: any) => {
+      //   setDefaultItems (response.data);
+      defaultItems = response.data;
+      console.log(response.data);
+    })
+    .catch((e: Error) => {
+      console.log(e);
+    });
+};
+getDefaultTodoList();
 
 const initialState: {
-  todoList: ITodoItem[];
+  todoListItems: ITodoItem[];
 } = {
   //  todoItem : TodoListService.getAll()
   //     .then((response: any) => {
@@ -19,17 +35,18 @@ const initialState: {
   //     .catch((e: Error) => {
   //       console.log(e);
   //     })
-  todoList: [],
+  //   todoList: [],
+  todoListItems:  defaultItems,
 };
 const todoListSlice = createSlice({
   name: "todoList",
   initialState: initialState,
   reducers: {
     removeTodoItem(state, action) {
-      const newTodoList = state.todoList.filter(
+      const newTodoList = state.todoListItems.filter(
         (todoItem) => todoItem.id !== action.payload
       );
-      state.todoList = newTodoList;
+      state.todoListItems = newTodoList;
     },
   },
 });

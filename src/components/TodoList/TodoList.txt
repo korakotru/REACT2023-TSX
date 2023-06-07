@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ITodoItem from "../../types/TodoItem";
 import TodoListService from "../../services/TodoListService";
+
     
 const TodoList: React.FC = () => {
   const [todoList, setTodoList] = useState<Array<ITodoItem>>([]);
@@ -10,14 +11,14 @@ const TodoList: React.FC = () => {
   }, []);
 
   const retrieveTodoList = () => {
-    TodoListService.getAll()
-      .then((response: any) => {
-        setTodoList(response.data);
-        console.log(response.data);
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
+    // TodoListService.getAll()
+    //   .then((response: any) => {
+    //     setTodoList(response.data);
+    //     console.log(response.data);
+    //   })
+    //   .catch((e: Error) => {
+    //     console.log(e);
+    //   });
   };
 
   return (
