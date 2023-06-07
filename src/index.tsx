@@ -7,7 +7,10 @@ import reportWebVitals from "./reportWebVitals";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import blueGrey from "@mui/material/colors/blueGrey";
 import { Provider } from "react-redux";
-import store from "./store/index";
+// import store from "./store/index";
+
+import { ApiProvider } from '@reduxjs/toolkit/query/react'
+import { pokemonApi } from './services/pokemon'
 
 const theme = createTheme({
   components: {
@@ -30,12 +33,10 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </Provider>
+  <React.StrictMode> 
+         <ApiProvider api={pokemonApi}>
+    <App />
+  </ApiProvider>
   </React.StrictMode>
 );
 

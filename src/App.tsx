@@ -1,78 +1,47 @@
 import React from "react";
 // import logo from "./logo.svg";
 import "./App.css";
-import TodoCardList from "./components/TodoList/TodoCardList";
-import { useAppDispatch, useAppSelector } from "./store/hooks";
-import ModalCreateTask from "./components/Utilities/ModalTask";
-import { modalActions } from "./store/Modal.store";
-import { Task } from "./interfaces";
+import { Pokemon } from "./Pokemon";
+import { useState, useEffect } from "react";
+import { useGetPokemonAllQuery } from "./services/pokemon";
 
-// import Box from '@mui/material/Box';
-// import Button from '@mui/material/Button';
-// import Typography from '@mui/material/Typography';
-// import Modal from '@mui/material/Modal';
+// const pokemon = ["bulbasaur", "pikachu", "ditto", "bulbasaur"];
 
 function App() {
-  const modal = useAppSelector((state) => state.modal);
-  const dispatch = useAppDispatch();
+  const [pollingInterval, setPollingInterval] = useState(0);
+  // const [pokemon, setPokemon] = useState([])
 
-  const closeModalCreateTask = () => {
-    dispatch(modalActions.closeModalCreateTask());
-  };
+  const { data, error, isLoading, isFetching } = useGetPokemonAllQuery({
+    pollingInterval,
+  });
 
-  const createNewTaskHandler = (task: Task) => {
-    throw "";
-    // dispatch(tasksActions.addNewTask(task));
-  };
-
-    return (
-      <React.Fragment>
-        {modal.modalCreateTaskOpen && (
-          <ModalCreateTask
-            onClose={closeModalCreateTask}
-            nameForm="Add a task"
-            onConfirm={createNewTaskHandler}
-          />
-        )}
-        <TodoCardList />
-      </React.Fragment>
-    );
- 
-  // const style = {
-  //   position: 'absolute' as 'absolute',
-  //   top: '50%',
-  //   left: '50%',
-  //   transform: 'translate(-50%, -50%)',
-  //   width: 400,
-  //   bgcolor: 'background.paper',
-  //   border: '2px solid #000',
-  //   boxShadow: 24,
-  //   p: 4,
-  // };
-
-  
-  // const [open, setOpen] = React.useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
-  // return (
-  //   <>
-  //     <Button onClick={handleOpen}>Open modal</Button>
-  //     <Modal
-  //       open={open}
-  //       onClose={handleClose}
-  //       aria-labelledby="modal-modal-title"
-  //       aria-describedby="modal-modal-description"
-  //     >
-  //       <Box sx={style}>
-  //         <Typography id="modal-modal-title" variant="h6" component="h2">
-  //           Text in a modal
-  //         </Typography>
-  //         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-  //           Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-  //         </Typography>
-  //       </Box>
-  //     </Modal>
-  //   </>
-  // );
+  return (
+    <React.Fragment>
+      <div className="App">
+        <select
+          onChange={(ele) => setPollingInterval(Number(ele.target.value))}
+        >
+          <option value={0}>Off</option>
+          <option value={1000}>1s</option>
+          <option value={5000}>5s</option>
+        </select>
+        <div>
+          {error ? (
+            <>Oh no, there was an error</>
+          ) : isLoading ? (
+            <><h1>Retrieving Pokemon Gang...</h1></>
+          ) : data ? (
+            data.results.map((pokemon: any, index: number) => (
+              <Pokemon
+                key={pokemon.name}
+                name={pokemon.name}
+                pollingInterval={pollingInterval}
+              />
+            ))
+          ) : null}
+        </div>
+      </div>
+    </React.Fragment>
+  );
 }
 export default App;
