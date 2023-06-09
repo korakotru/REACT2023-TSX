@@ -2,8 +2,8 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { API } from "./api-types";
 import axiosBaseQuery from "./axiosBaseQuery";
 
-export const api = createApi({
-  reducerPath: "api",
+export const jokesApi = createApi({
+  reducerPath: "jokesApi",
   baseQuery: axiosBaseQuery({
     transformResponse: (response) => response
   }),
@@ -14,4 +14,4 @@ export const api = createApi({
   })
 });
 
-export const { useGetJokeQuery, endpoints } = api;
+export const { useGetJokeQuery, endpoints } = jokesApi;

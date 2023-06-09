@@ -4,6 +4,7 @@ import "./App.css";
 import { Pokemon } from "./Pokemon";
 import { useState, useEffect } from "react";
 import { useGetPokemonAllQuery } from "./services/pokemon";
+import { useGetJokeQuery } from "./services/joke";
 
 // const pokemon = ["bulbasaur", "pikachu", "ditto", "bulbasaur"];
 
@@ -11,9 +12,11 @@ function App() {
   const [pollingInterval, setPollingInterval] = useState(0);
   // const [pokemon, setPokemon] = useState([])
 
-  const { data, error, isLoading, isFetching } = useGetPokemonAllQuery({
-    pollingInterval,
-  });
+  // const { data, error, isLoading, isFetching } = useGetPokemonAllQuery({
+  //   pollingInterval,
+  // });
+
+  const {data, error, isLoading, isFetching} = useGetJokeQuery()
 
   return (
     <React.Fragment>
@@ -31,13 +34,14 @@ function App() {
           ) : isLoading ? (
             <><h1>Retrieving Pokemon Gang...</h1></>
           ) : data ? (
-            data.results.map((pokemon: any, index: number) => (
-              <Pokemon
-                key={pokemon.name}
-                name={pokemon.name}
-                pollingInterval={pollingInterval}
-              />
-            ))
+            // data.results.map((pokemon: any, index: number) => (
+            //   <Pokemon
+            //     key={pokemon.name}
+            //     name={pokemon.name}
+            //     pollingInterval={pollingInterval}
+            //   />
+            // ))
+            <h1> {data.value}</h1>
           ) : null}
         </div>
       </div>
